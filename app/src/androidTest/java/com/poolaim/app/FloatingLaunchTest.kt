@@ -54,8 +54,7 @@ class FloatingLaunchTest {
    device.click(alphaBounds.left+alphaBounds.width()/2,alphaBounds.centerY())
    assertTrue(eventually { AnalysisFeed.settings.opacity in .4f.. .7f })
    device.findObject(By.text("Iniciar")).click()
-   val consent=device.wait(Until.findObject(By.res("android","button1")),15000)
-   assertNotNull("Consentimento de captura ausente",consent); consent.click()
+   clickCaptureConsent(device)
    assertTrue("Captura não iniciou: ${CaptureMonitor.snapshot}",eventually(25000) {
     CaptureMonitor.snapshot.phase==CapturePhase.RUNNING && CaptureMonitor.snapshot.processedFrames>=2
    })

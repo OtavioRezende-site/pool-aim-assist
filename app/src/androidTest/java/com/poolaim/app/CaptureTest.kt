@@ -36,8 +36,7 @@ class CaptureTest {
      selector.click()
      device.wait(Until.findObject(By.textContains("Entire screen")),3000)?.click()
     }
-    val consent=device.wait(Until.findObject(By.res("android","button1")),10000)
-    assertNotNull("Diálogo de consentimento do Android ausente",consent); consent.click()
+    clickCaptureConsent(device)
     assertTrue("Frames autorizados não chegaram: ${CaptureMonitor.snapshot}",eventually(25000) {
      CaptureMonitor.snapshot.phase==CapturePhase.RUNNING && CaptureMonitor.snapshot.processedFrames>=3
     })

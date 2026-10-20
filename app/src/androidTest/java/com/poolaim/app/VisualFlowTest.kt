@@ -36,8 +36,7 @@ class VisualFlowTest {
    var completed=false
    try {
     device.wait(Until.findObject(By.text("Iniciar teste visual")),20000).click()
-    val consent=device.wait(Until.findObject(By.res("android","button1")),15000)
-    assertNotNull("Diálogo MediaProjection ausente",consent); consent.click()
+    clickCaptureConsent(device)
     val predicted=eventually(45000) { AnalysisFeed.snapshot.lines.isNotEmpty() && AnalysisFeed.snapshot.fresh() }
     assertTrue("Sem previsão: ${AnalysisFeed.snapshot}",predicted)
     val first=AnalysisFeed.snapshot
