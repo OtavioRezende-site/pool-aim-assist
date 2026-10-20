@@ -83,6 +83,9 @@ jobs:
           profile: pixel_tablet
           disable-animations: true
           script: ./gradlew --no-daemon connectedDebugAndroidTest
+      - name: Resumir resultados instrumentados
+        if: always()
+        run: python3 .github/scripts/report-device-tests.py
       - name: Publicar relatórios do dispositivo
         uses: actions/upload-artifact@v4
         if: always()
