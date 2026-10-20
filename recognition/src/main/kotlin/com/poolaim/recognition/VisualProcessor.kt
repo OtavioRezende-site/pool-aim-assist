@@ -42,7 +42,7 @@ class VisualProcessor(private val detector: VisualDetector=VisualDetector()): Fr
       return Ball("ball-$index",Vec((b.center.x-region.left)/region.width*ratio,(b.center.y-region.top)/region.height),b.radius/region.height)
      }
      val angle=result.angle*PI/180
-     val prediction=GeometryEngine(table).predict(ball(result.cue),Vec(cos(angle).toFloat(),sin(angle).toFloat()),result.balls.indices.filter { it!=result.cue }.map(::ball),2)
+     val prediction=GeometryEngine(table).predict(ball(result.cue),Vec(cos(angle).toFloat(),sin(angle).toFloat()),result.balls.indices.filter { it!=result.cue }.map(::ball),settings.maxReflections)
      fun uv(v: Vec)=ImagePoint(region.left+v.x/ratio*region.width,region.top+v.y*region.height)
      snapshot=snapshot.copy(lines=prediction.segments.map { VisualLine(uv(it.from),uv(it.to),it.actor==PathActor.TARGET,it.reflection) },
       message=if(settings.manualDirection) "Direção manual • estimativa geométrica" else "Mira visual • estimativa geométrica")

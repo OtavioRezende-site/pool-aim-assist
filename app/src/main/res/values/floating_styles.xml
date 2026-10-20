@@ -1,0 +1,9 @@
+<resources>
+ <style name="FloatingLauncherTheme" parent="android:style/Theme.Material.Dialog.NoActionBar">
+  <item name="android:windowIsTranslucent">true</item>
+  <item name="android:windowBackground">@android:color/transparent</item>
+  <item name="android:backgroundDimEnabled">false</item>
+  <item name="android:windowNoTitle">true</item>
+  <item name="android:colorAccent">#5DE4C7</item>
+ </style>
+</resources>

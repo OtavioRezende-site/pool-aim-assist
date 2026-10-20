@@ -53,7 +53,9 @@ class OverlayTest {
    }
    fun tapBubble() {
     val bounds=bubbleBounds()
+    val wasOpen=com.poolaim.vision.AnalysisFeed.controlsOpen
     assertTrue(device.click(bounds.centerX(),bounds.centerY()))
+    if(!wasOpen) device.wait(Until.findObject(By.text("Mais opções")),10000)?.click()
    }
    // Query the actual overlay root bounds: API 28 may flag a moved WindowManager root
    // as invisible in UiObject2 even while it is drawn. Every tap is verified by menu state.

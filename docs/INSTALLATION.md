@@ -1,42 +1,33 @@
-# Pool Aim Assist — APK de teste
+# Pool Aim Assist 0.2.0 — instalar e usar
 
-Arquivo: `Pool-Aim-Assist-debug.apk`. Pacote: `com.poolaim.app`. Versão debug para teste local, não publicada na Play Store. Compatível a partir de Android 8/API 26; alvo API 35. Interface em paisagem, preparada para teste no Samsung Galaxy Tab S9 Plus.
+## Baixar e atualizar
 
-## Instalar no tablet
+No GitHub, abra **Actions → Android Debug → execução aprovada mais recente → Summary → Artifacts → Pool-Aim-Assist-debug**. O ZIP contém `Pool-Aim-Assist-debug.apk`, `SHA256SUMS` e este guia.
 
-1. Transfira o APK para o tablet e abra pelo aplicativo Meus Arquivos.
-2. Se o Android solicitar, permita **Instalar apps desconhecidos** apenas para o aplicativo usado para abrir o APK. As opções podem variar com a versão do One UI e com políticas do dispositivo.
-3. Instale e abra **Pool Aim Assist**. Uma instalação anterior com o mesmo pacote e outra chave de assinatura pode exigir remoção prévia; desinstalar apaga preferências/calibração.
+No tablet, abra o ZIP em **Meus Arquivos**, toque em **Extrair** e abra o APK extraído. Permita instalar desta fonte se o Android solicitar. Toque em **Atualizar/Instalar → Abrir**. A versão instalada deve ser **0.2.0 (código 2)**. Se houver assinatura diferente, o Android pode exigir desinstalar a versão anterior, o que apaga as preferências; APKs de execuções distintas podem usar chaves debug diferentes.
 
-Com adb e depuração USB autorizada:
+## Usar o painel compacto
 
-```sh
-adb install -r Pool-Aim-Assist-debug.apk
-adb shell am start -n com.poolaim.app/.MainActivity
-```
+1. O ícone abre os controles flutuantes, sem o laboratório em tela cheia. Na primeira abertura, conceda **Aparecer sobre outros aplicativos** e volte. O Android também pode solicitar notificações.
+2. Abra o aplicativo que deseja analisar e toque em **PA → Iniciar**. Confirme o consentimento de captura do Android. A janela temporária fecha, retornando ao aplicativo anterior. Não há captura sem esse consentimento.
+3. Arraste **PA para fora do pano da mesa**. O botão sobre a mesa pode impedir a detecção. O menu também precisa estar fechado para não analisar seus próprios controles.
+4. Toque em PA para ajustar **Transparência das linhas (0–90%)** ou **Quantidade de tabelas (0–2)**. Os ajustes são salvos e aplicados ao motor visual. **Recolher painel** retoma a interpretação dos frames.
+5. **Parar** encerra a captura e remove as linhas, mantendo PA disponível. Outra captura exige nova autorização. **Mais opções → Encerrar aplicativo** remove também a sobreposição.
 
-## Primeiro teste
+Uma pequena janela temporária pode aparecer para abrir as permissões. Os diálogos do Android são obrigatórios. O painel não mantém o laboratório em primeiro plano durante a análise.
 
-1. Abra **Iniciar assistência visual → Mesa para testar análise → Iniciar teste visual**.
-2. Conceda a permissão de sobreposição e confirme o consentimento de captura no diálogo do Android. No Android 14+ a captura solicita a tela inteira para alinhar as linhas.
-3. Mantenha o botão **PA fora do pano**. Altere a direção no slider da mesa e observe as previsões. Magenta representa a branca, laranja a bola-alvo e azul as reflexões. O trecho da mira original é preservado.
-4. Teste **PA → Pausar/Retomar**, mostrar/ocultar linhas e direção manual.
-5. Use **Parar** ou a ação da notificação para encerrar a captura. **Encerrar aplicativo** no menu também remove os serviços e a tarefa do Pool Aim Assist.
+## Se as linhas não aparecerem
 
-Para outro aplicativo: inicie a captura, abra a mesa e mantenha PA fora da área jogável. Se a detecção falhar, use **PA → Calibrar mesa** para congelar o quadro. Ajuste os limites; marque primeiro a branca e depois todas as bolas. Confirme e salve. A direção manual está disponível na tela e no menu flutuante. Recalibre após movimentos das bolas e mudanças visuais.
+Abra PA e leia o status. A detecção automática é experimental: pano, bolas e mira precisam ser reconhecidos com confiança em dois frames recentes. Linhas antigas/ambíguas são ocultadas. Elas não são desenhadas sobre telas sem mesa ou sem direção confiável.
 
-## Limites e privacidade
+Use **PA → Mais opções → Calibrar mesa** para editar um quadro congelado: selecione limites, marque primeiro a branca e depois as demais bolas e salve. Ao salvar, o editor fecha e a análise retoma se houver sessão autorizada. Recalibre após as bolas se moverem ou após mudanças de orientação/visual. A direção pode ser ajustada em **Mais opções → Usar direção manual**. Para ajustes avançados, **Mais opções → Configurações** abre o laboratório; **Voltar ao botão flutuante** fecha essa tela.
 
-A detecção automática é experimental. Os testes disponíveis usam imagens sintéticas e a mesa Canvas do próprio aplicativo. **O funcionamento sobre o 8 Ball Pool real e no Galaxy Tab S9 Plus físico ainda precisa de validação.** Os testes instrumentados passaram em emuladores Android 9/API 28 e Android 15/API 35; isso não substitui testes no hardware Samsung/One UI. Não há garantia de acerto ou desempenho de 15 FPS; esse valor é um teto de captura. Estimativas não incluem força, efeito ou atrito.
+As previsões são geométricas, sem força, atrito ou efeito. Não há automação de tacadas. O aplicativo respeita bloqueios de captura/sobreposição do Android e de outros aplicativos.
 
-As linhas desaparecem se os dados ficam antigos ou ambíguos. Android e outros aplicativos podem ocultar sobreposição ou proteger conteúdo; o aplicativo não contorna essas regras. Não há automação de tacadas.
+## Validação e privacidade
 
-Captura exige autorização por sessão. Os frames ficam em memória e não são enviados nem gravados em disco pelo aplicativo. Parar descarta os quadros globais e a miniatura de calibração; uma tela de edição já aberta pode manter sua cópia até sair dela. Preferências e geometria/cor da calibração ficam no armazenamento privado, com backup/transferência desabilitados. A captura usa serviço/notificação próprios e pode ser encerrada pelo Android.
+A versão anterior passou em emuladores Android 9/API 28 e Android 15/API 35. O resultado dos testes da abertura compacta está em `docs/VALIDATION-0.2.md`. **O funcionamento sobre o 8 Ball Pool real e no Galaxy Tab S9 Plus físico precisa de validação.**
 
-## Onde baixar no GitHub
+O vídeo de uso enviado excedeu o limite de transferência de 32 MiB e não pôde ser examinado nesta revisão. Não se afirma que a causa específica mostrada nele foi corrigida. Um trecho menor permite investigar a falha de reconhecimento.
 
-Execução verificada com build e testes Android 15 aprovados: [Android Debug #6](https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388). Para baixar:
-
-**OtavioRezende-site/pool-aim-assist → Actions → Android Debug → execução desejada → Summary → Artifacts → Pool-Aim-Assist-debug**.
-
-O ZIP contém `Pool-Aim-Assist-debug.apk`, `SHA256SUMS` e `LEIA-ME.md`. Extraia o ZIP antes de instalar o APK. O artefato fica disponível por 14 dias e depende de uma execução real; configurar o YAML localmente não o publica. O job de dispositivo é separado, permitindo baixar o APK se o build passar e o emulador do CI tiver problemas.
+Captura exige autorização por sessão. Os frames ficam em memória, sem envio ou gravação pelo aplicativo. Backup/transferência estão desabilitados; o APK não pede permissão de internet, câmera, microfone, localização ou armazenamento.

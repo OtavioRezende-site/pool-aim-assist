@@ -71,6 +71,22 @@ class VisualDetectorTest {
   AnalysisFeed.pause(); AnalysisFeed.publish(VisualSnapshot(sessionId=7,message="invalid"),revision)
   assertEquals("Análise pausada",AnalysisFeed.snapshot.message); AnalysisFeed.stop()
  }
+ @Test fun visualPredictionUsesSelectedCushionLimitAfterSettingsChange() {
+  val saved=AnalysisFeed.settings
+  AnalysisFeed.authorize(7); AnalysisFeed.start(); AnalysisFeed.ownUiVisible=false
+  val processor=VisualProcessor()
+  try {
+   for(limit in listOf(2,0,1)) {
+    AnalysisFeed.configure(VisualSettings(manualDirection=true,angleDegrees=90f,maxReflections=limit))
+    scene(whiteAim=false).use(processor::process)
+    assertTrue("Ajuste deve invalidar a previsão anterior",AnalysisFeed.snapshot.lines.isEmpty())
+    scene(whiteAim=false).use(processor::process)
+    val lines=AnalysisFeed.snapshot.lines
+    assertTrue(AnalysisFeed.snapshot.message,lines.isNotEmpty())
+    assertEquals("O motor deve respeitar a quantidade escolhida",limit,lines.maxOf { it.reflection })
+   }
+  } finally { AnalysisFeed.stop(); AnalysisFeed.configure(saved) }
+ }
  @Test fun manualGeometryRequiresSameOrientationAndMatchingBalls() {
   scene().use { f ->
    val detected=VisualDetector().detect(f,VisualSettings())

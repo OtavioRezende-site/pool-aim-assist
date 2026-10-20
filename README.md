@@ -1,20 +1,22 @@
 # Pool Aim Assist
 
+**Versão 0.2.0 — abertura direta no painel flutuante.** Baixe o ZIP **Pool-Aim-Assist-debug** em [Actions → Android Debug](https://github.com/OtavioRezende-site/pool-aim-assist/actions/workflows/android.yml), na execução aprovada mais recente. Extraia e instale o APK. [Passo a passo no tablet](docs/INSTALLATION.md).
+
 MVP Android nativo em Kotlin, Jetpack Compose/Material 3 e MVVM. Reutiliza MediaProjection/ImageReader, o motor geométrico Kotlin e o serviço WindowManager. Android mínimo 8/API 26, compile/target 35, orientação paisagem e coordenadas proporcionais. Preparado para validação no Galaxy Tab S9 Plus; esse dispositivo e o 8 Ball Pool real ainda precisam de testes.
 
 ## Fluxo funcional
 
-1. Abra **Iniciar assistência visual → Iniciar**. Conceda sobreposição e confirme a captura no diálogo do Android. No Android 14+ a autorização solicita a tela inteira para alinhar as coordenadas; não há captura silenciosa nem reutilização de autorização.
+1. Toque no ícone do aplicativo: ele abre **o painel flutuante compacto**, sem a tela de laboratório. Toque em **Iniciar**. Conceda sobreposição e confirme a captura no diálogo do Android. No Android 14+ a autorização solicita a tela inteira para alinhar as coordenadas; não há captura silenciosa nem reutilização de autorização.
 2. Abra a mesa no outro aplicativo. Posicione **PA fora do pano**; se o controle encobrir a mesa, as previsões são suspensas.
 3. O detector procura uma superfície retangular verde/azul, componentes circulares, uma única bola branca e uma linha de mira neutra/clara. Duas observações compatíveis confirmam a cena. A direção visual alimenta o motor geométrico sem automação de tacadas.
 4. A sobreposição desenha a extensão da branca em magenta, a direção inicial do alvo em laranja e reflexões em azul, com até duas tabelas. Ela preserva os pixels da mira original e das bolas para reduzir realimentação da captura. As linhas não recebem toques.
-5. Use PA para **Pausar/Retomar**, **Parar análise**, **Mostrar/Ocultar linhas**, ajustar direção manual, calibrar ou encerrar. Pausar preserva a sessão autorizada; parar encerra a projeção e exige novo consentimento para outra sessão.
+5. Use PA para **Iniciar**, **Parar**, ajustar **Transparência das linhas** e **Quantidade de tabelas (0–2)**. Em **Mais opções**, ficam **Pausar/Retomar**, **Mostrar/Ocultar linhas**, direção manual, calibração, configurações e encerramento. Pausar preserva a sessão autorizada; parar encerra a projeção e exige novo consentimento para outra sessão.
 
 A análise fica suspensa enquanto a interface principal do Pool Aim Assist está aberta, exceto na mesa de teste. Isso preserva o último quadro do jogo para calibração. Abrir o menu também suspende a interpretação para não analisar os próprios controles.
 
 ## Calibração e direção manual
 
-No quadro desejado, abra **PA → Calibrar mesa**. O quadro anterior à abertura do menu é congelado. Toque em dois cantos internos da área jogável. **Salvar só limites** mantém bolas e direção automáticas. Para geometria manual, use **Marcar branca e bolas**, marque primeiro a branca e depois todas as outras bolas, ajuste o raio e confirme os dados antes de salvar. Os centros precisam estar dentro da mesa e os círculos não podem se sobrepor.
+No quadro desejado, abra **PA → Mais opções → Calibrar mesa**. O quadro anterior à abertura do menu é congelado. Toque em dois cantos internos da área jogável. **Salvar só limites** mantém bolas e direção automáticas. Para geometria manual, use **Marcar branca e bolas**, marque primeiro a branca e depois todas as outras bolas, ajuste o raio e confirme os dados antes de salvar. Os centros precisam estar dentro da mesa e os círculos não podem se sobrepor.
 
 A geometria manual salva a assinatura média de cor de cada bola. A cada quadro, mudanças de cor nas posições marcadas ou mudanças de orientação/proporção invalidam a previsão. Isso não é rastreamento completo de bolas: **recalibre após tacadas ou mudanças do visual**. Pequenos deslocamentos e bolas de cores semelhantes podem exigir revisão manual. Perspectiva inclinada não é suportada.
 
@@ -67,14 +69,14 @@ adb shell am start -n com.poolaim.app/.MainActivity
 
 No aplicativo, **Mesa para testar análise → Iniciar teste visual** captura uma mesa Canvas com três bolas e uma mira que muda pelo slider. É o caminho de demonstração do fluxo real de visão, diferente das linhas geométricas fixas em **Testar sobreposição**.
 
-O workflow `.github/workflows/android.yml` executa testes JVM, assembleDebug e lint, publica o APK e executa instrumentação em API 35 com KVM. Ele depende do envio dos arquivos ao GitHub; não foi executado remotamente nesta tarefa.
+O workflow `.github/workflows/android.yml` executa testes JVM, assembleDebug e lint, publica o APK e executa instrumentação em API 35 com KVM. As execuções e artefatos estão disponíveis em Actions. Consulte a execução correspondente à versão desejada.
 
 Os resultados efetivamente obtidos, falhas intermediárias e limites de validação constam em [docs/VALIDATION.md](docs/VALIDATION.md).
 
-## Pacote de teste estabilizado
+## Histórico: pacote de teste 0.1 estabilizado
 
 O APK de entrega está em `dist/Pool-Aim-Assist-debug.apk`, acompanhado por checksum e guia. Veja [instalação no Galaxy Tab S9 Plus](docs/INSTALLATION.md) e [validação desta revisão](docs/VALIDATION.md). Ao encerrar a captura, as miniaturas globais são descartadas; o processador não retém pixels da imagem anterior. Backup/transferência de dados e tráfego HTTP em texto claro estão desabilitados.
 
 No GitHub: **Actions → Android Debug → execução → Summary → Artifacts → Pool-Aim-Assist-debug**. O ZIP publicado pelo job build contém o APK, SHA256SUMS e LEIA-ME.md e fica disponível por 14 dias. O job de teste de dispositivo é independente. É necessária uma execução real do workflow após o envio do código; configurar o arquivo localmente não publica o artefato.
 
-Validação final remota: [Android Debug #6 — build e testes Android 15 aprovados](https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388). Baixe **Artifacts → Pool-Aim-Assist-debug**; o ZIP contém o APK instalável, checksum e guia. Relatório completo em [docs/VALIDATION.md](docs/VALIDATION.md).
+Validação remota da versão 0.1: [Android Debug #6 — build e testes Android 15 aprovados](https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388). Baixe **Artifacts → Pool-Aim-Assist-debug**; o ZIP contém o APK instalável, checksum e guia. Relatório completo em [docs/VALIDATION.md](docs/VALIDATION.md).

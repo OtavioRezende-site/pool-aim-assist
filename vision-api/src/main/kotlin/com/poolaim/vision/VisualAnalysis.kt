@@ -16,9 +16,9 @@ data class PixelPreview(val width: Int,val height: Int,val argb: IntArray) { ove
 data class ManualScene(val region: TableRegion,val balls: List<ObservedBall>,val colors: List<Int>,
  val sourceAspect: Float,val rotation: Int)
 data class VisualSettings(val manual: ManualScene?=null,val manualDirection: Boolean=false,val angleDegrees: Float=0f,
- val opacity: Float=.9f,val linesVisible: Boolean=true) {
+ val opacity: Float=.9f,val linesVisible: Boolean=true,val maxReflections: Int=2) {
  fun sanitized()=copy(angleDegrees=if(angleDegrees.isFinite()) ((angleDegrees+180)%360+360)%360-180 else 0f,
-  opacity=if(opacity.isFinite()) opacity.coerceIn(.1f,1f) else .9f)
+  opacity=if(opacity.isFinite()) opacity.coerceIn(.1f,1f) else .9f,maxReflections=maxReflections.coerceIn(0,2))
 }
 data class VisualSnapshot(val sessionId: Long=0,val receivedAtNanos: Long=0,val sourceWidth: Int=0,val sourceHeight: Int=0,
  val rotation: Int=0,val message: String="Análise parada",val confidence: Float=0f,val region: TableRegion?=null,

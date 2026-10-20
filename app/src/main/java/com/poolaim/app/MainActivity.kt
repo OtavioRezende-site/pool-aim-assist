@@ -133,8 +133,11 @@ class MainActivity : ComponentActivity() {
   Column(Modifier.fillMaxSize().safeDrawingPadding().padding(24.dp)) {
    Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween) {
     Column { Text("POOL AIM ASSIST",style=MaterialTheme.typography.headlineMedium,color=MaterialTheme.colorScheme.primary)
-     Text("Laboratório de trajetórias • versão 0.1",style=MaterialTheme.typography.bodyMedium) }
-    if(vm.screen!=Screen.HOME) TextButton(onClick={vm.screen=Screen.HOME}) { Text("Voltar ao início") }
+     Text("Laboratório de trajetórias • versão 0.2",style=MaterialTheme.typography.bodyMedium) }
+    Column {
+     TextButton(onClick={ if(OverlayPermission.granted(this@MainActivity)) { OverlayController.start(this@MainActivity,openMenu=true); finish() } else beginFloating() }) { Text("Voltar ao botão flutuante") }
+     if(vm.screen!=Screen.HOME) TextButton(onClick={vm.screen=Screen.HOME}) { Text("Voltar ao início") }
+    }
    }
    Spacer(Modifier.height(16.dp))
    when(vm.screen) {
@@ -161,7 +164,10 @@ class MainActivity : ComponentActivity() {
     }
     Screen.ANALYSIS -> AnalysisPanel(capture,onStart={beginAnalysis()},onStop={CaptureController.stop(this@MainActivity)},
      onCalibrate={AnalysisFeed.freezeForCalibration(); vm.screen=Screen.VISUAL_CALIBRATION},onTest={vm.screen=Screen.VISUAL_TEST})
-    Screen.VISUAL_CALIBRATION -> VisualCalibrationPanel { vm.screen=Screen.ANALYSIS }
+    Screen.VISUAL_CALIBRATION -> VisualCalibrationPanel {
+     if(AnalysisFeed.authorizedSession!=0L) AnalysisFeed.start()
+     finish()
+    }
     Screen.VISUAL_TEST -> VisualTrainingPanel(onStart={AnalysisFeed.configure(AnalysisFeed.settings.copy(manual=null,manualDirection=false)); beginAnalysis()},onStop={CaptureController.stop(this@MainActivity)})
     Screen.SIMULATOR -> {
      Text("Toque na mesa para mirar. Pressione e segure para mover a bola amarela.")
@@ -211,8 +217,12 @@ class MainActivity : ComponentActivity() {
     }
     Screen.SETTINGS -> Column(Modifier.verticalScroll(rememberScrollState())) {
      Text("Configurações",style=MaterialTheme.typography.headlineSmall)
-     Text("Reflexões máximas por trajetória: "+vm.reflections)
-     Slider(value=vm.reflections.toFloat(),onValueChange={vm.updateReflections(it.toInt())},valueRange=0f..2f,steps=1)
+     var reflections by remember { mutableIntStateOf(AnalysisFeed.settings.maxReflections) }
+     Text("Reflexões máximas por trajetória: $reflections")
+     Slider(value=reflections.toFloat(),onValueChange={
+      reflections=it.toInt(); vm.updateReflections(reflections)
+      AnalysisFeed.configure(AnalysisFeed.settings.copy(maxReflections=reflections))
+     },valueRange=0f..2f,steps=1)
      Text("Preferências salvas automaticamente. Orientação paisagem com suporte a tablets, incluindo Galaxy Tab S9 Plus.")
      Text(RecognitionStatus.description)
      FloatingOptions()

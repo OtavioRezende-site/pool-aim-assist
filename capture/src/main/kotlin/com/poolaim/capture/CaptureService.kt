@@ -103,7 +103,7 @@ class CaptureService: Service() {
  private fun foreground() {
   val manager=getSystemService(NotificationManager::class.java)
   manager.createNotificationChannel(NotificationChannel("capture","Captura de tela autorizada",NotificationManager.IMPORTANCE_LOW))
-  val open=packageManager.getLaunchIntentForPackage(packageName)!!.putExtra("overlay_screen","CAPTURE")
+  val open=Intent().setClassName(packageName,"$packageName.MainActivity").putExtra("overlay_screen","CAPTURE")
   val pending=PendingIntent.getActivity(this,42,open,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
   val stop=PendingIntent.getService(this,43,Intent(this,CaptureService::class.java).setAction(CaptureController.STOP),PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
   val notification=Notification.Builder(this,"capture").setSmallIcon(android.R.drawable.ic_menu_camera)

@@ -20,11 +20,13 @@ class VisualCalibrationStore(context: Context) {
    require(it.getDouble("aspect").isFinite() && it.getDouble("aspect")>0 && it.getInt("rotation") in setOf(0,90,180,270))
    ManualScene(region,balls,(0 until list.length()).map { list.getJSONObject(it).getInt("color") },it.getDouble("aspect").toFloat(),it.getInt("rotation"))
   }
-  VisualSettings(manual,root.optBoolean("direction"),root.optDouble("angle",0.0).toFloat(),root.optDouble("opacity",.9).toFloat()).sanitized()
+  VisualSettings(manual,root.optBoolean("direction"),root.optDouble("angle",0.0).toFloat(),root.optDouble("opacity",.9).toFloat(),
+   root.optBoolean("linesVisible",true),root.optInt("reflections",2)).sanitized()
  } catch(_: Exception) { VisualSettings() }
  fun write(settings: VisualSettings) {
   val value=settings.sanitized()
   val root=JSONObject().put("direction",value.manualDirection).put("angle",value.angleDegrees).put("opacity",value.opacity)
+   .put("linesVisible",value.linesVisible).put("reflections",value.maxReflections)
   value.manual?.let { m ->
    val balls=JSONArray()
    m.balls.forEachIndexed { index,b -> balls.put(JSONObject().put("x",b.center.x).put("y",b.center.y).put("radius",b.radius).put("color",m.colors[index])) }

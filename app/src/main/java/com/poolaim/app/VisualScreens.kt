@@ -52,6 +52,8 @@ import kotlin.math.*
   }
   Text("Transparência das linhas: ${(settings.opacity*100).toInt()}% de opacidade")
   Slider(settings.opacity,{ AnalysisFeed.configure(settings.copy(opacity=it)); settings=AnalysisFeed.settings },valueRange=.1f..1f)
+  Text("Quantidade de tabelas: ${settings.maxReflections}")
+  Slider(settings.maxReflections.toFloat(),{ AnalysisFeed.configure(settings.copy(maxReflections=it.toInt())); settings=AnalysisFeed.settings },valueRange=0f..2f,steps=1)
   Text("A detecção automática é experimental para mesas retangulares vistas de cima, com pano verde/azul e mira clara. Se não houver confiança, as linhas somem; calibre mesa/bolas e use direção manual. Recalibre após as bolas se moverem ou o visual mudar.",style=MaterialTheme.typography.bodySmall)
  }
 }

@@ -56,6 +56,7 @@ class OverlayService: Service() {
    when(intent?.action) {
     OverlayController.DEMO -> { AnalysisFeed.pause(); demo=true; addLines(); lines?.showLines=true }
     OverlayController.UPDATE -> { removeMenu(); applySettings() }
+    OverlayController.OPEN_PANEL -> button?.post { if(OverlayController.running) { removeMenu(); showMenu() } }
    }
   } catch(e: RuntimeException) {
    android.util.Log.e("PoolOverlay","Não foi possível abrir a sobreposição",e)
@@ -170,7 +171,7 @@ class OverlayService: Service() {
  private fun update(view: View,p: WindowManager.LayoutParams) {
   try { wm.updateViewLayout(view,p) } catch(_: RuntimeException) { stopSelf() }
  }
- private fun showMenu() {
+ private fun showMenu(advanced: Boolean=false) {
   val detectionStatus=AnalysisFeed.snapshot.statusText
   AnalysisFeed.setControlsOpen(true)
   val (w,h)=bounds()
@@ -182,6 +183,49 @@ class OverlayService: Service() {
   fun item(label: String,action: ()->Unit) {
    content.addView(Button(this).apply { text=label; isAllCaps=false; minHeight=dp(40); setOnClickListener { removeMenu(); action() } })
   }
+  if(!advanced) {
+   content.addView(TextView(this).apply {
+    text="Recolha o painel para analisar a mesa. Mantenha PA fora do pano."
+    setTextColor(Color.LTGRAY); textSize=12f
+   })
+   val actions=LinearLayout(this).apply { orientation=LinearLayout.HORIZONTAL }
+   actions.addView(Button(this).apply {
+    text="Iniciar"; isAllCaps=false
+    setOnClickListener { removeMenu(); if(AnalysisFeed.authorizedSession!=0L) AnalysisFeed.start() else open("ANALYSIS") }
+   },LinearLayout.LayoutParams(0,dp(44),1f))
+   actions.addView(Button(this).apply {
+    text="Parar"; isAllCaps=false
+    setOnClickListener { removeMenu(); OverlayController.onStopAnalysis?.invoke(); demo=false; removeLines() }
+   },LinearLayout.LayoutParams(0,dp(44),1f))
+   content.addView(actions)
+   val transparency=TextView(this).apply { setTextColor(Color.WHITE) }
+   fun transparencyLabel() { transparency.text="Transparência das linhas: ${100-(AnalysisFeed.settings.opacity*100).toInt()}%" }
+   transparencyLabel(); content.addView(transparency)
+   content.addView(SeekBar(this).apply {
+    contentDescription="Transparência das linhas"; max=90; progress=100-(AnalysisFeed.settings.opacity*100).toInt()
+    setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+     override fun onStartTrackingTouch(bar: SeekBar?) { }
+     override fun onStopTrackingTouch(bar: SeekBar?) { }
+     override fun onProgressChanged(bar: SeekBar?,value: Int,fromUser: Boolean) {
+      if(fromUser) { AnalysisFeed.configure(AnalysisFeed.settings.copy(opacity=1f-value/100f)); transparencyLabel() }
+     }
+    })
+   })
+   val reflections=TextView(this).apply { text="Quantidade de tabelas: ${AnalysisFeed.settings.maxReflections}"; setTextColor(Color.WHITE) }
+   content.addView(reflections)
+   content.addView(SeekBar(this).apply {
+    contentDescription="Quantidade de tabelas"; max=2; progress=AnalysisFeed.settings.maxReflections
+    setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+     override fun onStartTrackingTouch(bar: SeekBar?) { }
+     override fun onStopTrackingTouch(bar: SeekBar?) { }
+     override fun onProgressChanged(bar: SeekBar?,value: Int,fromUser: Boolean) {
+      if(fromUser) { AnalysisFeed.configure(AnalysisFeed.settings.copy(maxReflections=value)); reflections.text="Quantidade de tabelas: $value" }
+     }
+    })
+   })
+   item("Recolher painel") { }
+   item("Mais opções") { showMenu(advanced=true) }
+  } else {
   item("Iniciar análise") { if(AnalysisFeed.authorizedSession!=0L) AnalysisFeed.start() else open("ANALYSIS") }
   item(if(AnalysisFeed.paused) "Retomar análise" else "Pausar análise") { if(AnalysisFeed.paused) AnalysisFeed.start() else AnalysisFeed.pause() }
   item("Parar análise") { OverlayController.onStopAnalysis?.invoke(); demo=false; removeLines() }
@@ -213,6 +257,7 @@ class OverlayService: Service() {
    getSystemService(ActivityManager::class.java).appTasks.forEach { it.finishAndRemoveTask() }
    stopSelf()
   }
+  }
   // Only this compact window consumes touches. No full-screen touch-dismiss surface is installed.
   val scroll=ScrollView(this).apply { addView(content); isFillViewport=false }
   menu=scroll
@@ -240,7 +285,8 @@ class OverlayService: Service() {
   try { wm.addView(scroll,p) } catch(_: RuntimeException) { menu=null; stopSelf() }
  }
  private fun open(screen: String) {
-  val intent=packageManager.getLaunchIntentForPackage(packageName) ?: return
+  val intent=Intent().setClassName(packageName,"$packageName."+if(screen=="ANALYSIS") "FloatingActivity" else "MainActivity")
+  if(screen=="ANALYSIS") intent.action=OverlayController.REQUEST_ANALYSIS
   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP).putExtra(OverlayController.SCREEN,screen)
   try { startActivity(intent) } catch(_: RuntimeException) { Toast.makeText(this,"Abra o Pool Aim Assist para continuar",Toast.LENGTH_LONG).show() }
  }
