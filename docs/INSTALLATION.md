@@ -27,7 +27,7 @@ Para outro aplicativo: inicie a captura, abra a mesa e mantenha PA fora da área
 
 ## Limites e privacidade
 
-A detecção automática é experimental. Os testes disponíveis usam imagens sintéticas e a mesa Canvas do próprio aplicativo. **O funcionamento sobre o 8 Ball Pool real, o Galaxy Tab S9 Plus físico e o Android 14+ ainda precisa de validação em dispositivo.** Não há garantia de acerto ou desempenho de 15 FPS; esse valor é um teto de captura. Estimativas não incluem força, efeito ou atrito.
+A detecção automática é experimental. Os testes disponíveis usam imagens sintéticas e a mesa Canvas do próprio aplicativo. **O funcionamento sobre o 8 Ball Pool real e no Galaxy Tab S9 Plus físico ainda precisa de validação.** Os testes instrumentados passaram em emuladores Android 9/API 28 e Android 15/API 35; isso não substitui testes no hardware Samsung/One UI. Não há garantia de acerto ou desempenho de 15 FPS; esse valor é um teto de captura. Estimativas não incluem força, efeito ou atrito.
 
 As linhas desaparecem se os dados ficam antigos ou ambíguos. Android e outros aplicativos podem ocultar sobreposição ou proteger conteúdo; o aplicativo não contorna essas regras. Não há automação de tacadas.
 
@@ -35,7 +35,7 @@ Captura exige autorização por sessão. Os frames ficam em memória e não são
 
 ## Onde baixar no GitHub
 
-Após o workflow estar enviado ao repositório e uma execução concluir o job `build`:
+Execução verificada com build e testes Android 15 aprovados: [Android Debug #6](https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388). Para baixar:
 
 **OtavioRezende-site/pool-aim-assist → Actions → Android Debug → execução desejada → Summary → Artifacts → Pool-Aim-Assist-debug**.
 

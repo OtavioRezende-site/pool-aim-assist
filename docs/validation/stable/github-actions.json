@@ -1,0 +1,125 @@
+{
+  "run": "https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388",
+  "jobs": [
+    {
+      "url": "https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388/job/118716430246",
+      "status": "completed",
+      "steps": [
+        [
+          "Set up job",
+          "success"
+        ],
+        [
+          "Run actions/checkout@v4",
+          "success"
+        ],
+        [
+          "Run actions/setup-java@v5",
+          "success"
+        ],
+        [
+          "Run gradle/actions/setup-gradle@v4",
+          "success"
+        ],
+        [
+          "Verificar SDK Android 35",
+          "success"
+        ],
+        [
+          "Testes, APK debug e lint",
+          "success"
+        ],
+        [
+          "Preparar pacote instal\u00e1vel",
+          "success"
+        ],
+        [
+          "Calcular SHA-256",
+          "success"
+        ],
+        [
+          "Publicar APK em Artifacts",
+          "success"
+        ],
+        [
+          "Publicar relat\u00f3rios de build",
+          "success"
+        ],
+        [
+          "Post Run gradle/actions/setup-gradle@v4",
+          "success"
+        ],
+        [
+          "Post Run actions/setup-java@v5",
+          "success"
+        ],
+        [
+          "Post Run actions/checkout@v4",
+          "success"
+        ],
+        [
+          "Complete job",
+          "success"
+        ]
+      ]
+    },
+    {
+      "url": "https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388/job/118716430640",
+      "status": "completed",
+      "steps": [
+        [
+          "Set up job",
+          "success"
+        ],
+        [
+          "Run actions/checkout@v4",
+          "success"
+        ],
+        [
+          "Run actions/setup-java@v5",
+          "success"
+        ],
+        [
+          "Run gradle/actions/setup-gradle@v4",
+          "success"
+        ],
+        [
+          "Enable KVM",
+          "success"
+        ],
+        [
+          "Testes instrumentados Android 15",
+          "success"
+        ],
+        [
+          "Resumir resultados instrumentados",
+          "success"
+        ],
+        [
+          "Publicar relat\u00f3rios do dispositivo",
+          "success"
+        ],
+        [
+          "Post Run gradle/actions/setup-gradle@v4",
+          "success"
+        ],
+        [
+          "Post Run actions/setup-java@v5",
+          "success"
+        ],
+        [
+          "Post Run actions/checkout@v4",
+          "success"
+        ],
+        [
+          "Complete job",
+          "success"
+        ]
+      ]
+    }
+  ],
+  "commit": "f7c3453",
+  "result": "success",
+  "artifact": "Pool-Aim-Assist-debug",
+  "retention_days": 14
+}

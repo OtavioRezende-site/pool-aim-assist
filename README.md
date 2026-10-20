@@ -76,3 +76,5 @@ Os resultados efetivamente obtidos, falhas intermediárias e limites de validaç
 O APK de entrega está em `dist/Pool-Aim-Assist-debug.apk`, acompanhado por checksum e guia. Veja [instalação no Galaxy Tab S9 Plus](docs/INSTALLATION.md) e [validação desta revisão](docs/VALIDATION.md). Ao encerrar a captura, as miniaturas globais são descartadas; o processador não retém pixels da imagem anterior. Backup/transferência de dados e tráfego HTTP em texto claro estão desabilitados.
 
 No GitHub: **Actions → Android Debug → execução → Summary → Artifacts → Pool-Aim-Assist-debug**. O ZIP publicado pelo job build contém o APK, SHA256SUMS e LEIA-ME.md e fica disponível por 14 dias. O job de teste de dispositivo é independente. É necessária uma execução real do workflow após o envio do código; configurar o arquivo localmente não publica o artefato.
+
+Validação final remota: [Android Debug #6 — build e testes Android 15 aprovados](https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388). Baixe **Artifacts → Pool-Aim-Assist-debug**; o ZIP contém o APK instalável, checksum e guia. Relatório completo em [docs/VALIDATION.md](docs/VALIDATION.md).

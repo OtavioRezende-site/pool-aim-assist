@@ -65,11 +65,20 @@ Localização após uma execução real bem-sucedida do build:
 
 **OtavioRezende-site/pool-aim-assist → Actions → Android Debug → execução → Summary → Artifacts → Pool-Aim-Assist-debug**.
 
-O ZIP contém `Pool-Aim-Assist-debug.apk`, `SHA256SUMS` e `LEIA-ME.md`. APKs do CI podem usar outra chave debug; consulte as instruções de instalação. A configuração local do YAML não comprova publicação remota. O resultado do envio/execução será informado separadamente na entrega.
+O ZIP contém `Pool-Aim-Assist-debug.apk`, `SHA256SUMS` e `LEIA-ME.md`. APKs do CI podem usar outra chave debug; consulte as instruções de instalação. A configuração local do YAML não comprova publicação remota. Execução remota concluída com sucesso: [Android Debug #6](https://github.com/OtavioRezende-site/pool-aim-assist/actions/runs/39448424388), commit `f7c3453`.
+
+- Job `build`: aprovado em 2 min 26 s; testes JVM, assembleDebug e lint concluídos, APK publicado em **Pool-Aim-Assist-debug**.
+- Job `device-tests`: aprovado em 4 min 2 s; suíte de 6 testes instrumentados no Android 15/API 35, incluindo captura com consentimento, mudança de direção visual, rotação, sobreposição e encerramento.
+- Artefatos publicados: **Pool-Aim-Assist-debug**, **Android-build-reports** e **Android-device-test-reports**.
+- O runner foi fixado em Ubuntu 24.04, o caminho do SDK resolvido explicitamente e setup-java atualizado para v5. O script `.github/scripts/report-device-tests.py` expõe falhas da instrumentação nas anotações do job.
+- A primeira execução dos testes API 35 revelou uma premissa incorreta no teste de sobreposição: o bloqueio artificial de orientação persistia ao abrir Configurações. O teste agora libera o bloqueio após a navegação, antes de verificar o retorno à paisagem. A execução final passou sem alterar a orientação do aplicativo ou contornar regras do sistema.
+- Evidência dos jobs/etapas: [validation/stable/github-actions.json](validation/stable/github-actions.json). APKs gerados no CI têm seu próprio checksum dentro do ZIP; o SHA acima identifica somente o pacote local.
+
+As alterações posteriores a essa execução são somente de documentação, com CI omitido por `[skip ci]`.
 
 ## Limites de validação
 
-**Ainda não validado diretamente sobre o 8 Ball Pool, no Galaxy Tab S9 Plus físico ou em execução Android 14/15.** As regras de API 34+ estão implementadas e compilam com API 35; um emulador API 35 de etapa anterior apresentou ANRs do sistema. O teste local atual foi API 28. O CI prevê API 35, mas execução remota não é presumida.
+**Ainda não validado diretamente sobre o 8 Ball Pool ou no Galaxy Tab S9 Plus físico/One UI.** Android 9/API 28 foi validado localmente e Android 15/API 35 foi validado pelo CI com KVM. Android 14/API 34 não foi executado separadamente. Os ANRs de um emulador API 35 anterior sem KVM não impediram a validação da execução remota final.
 
 A detecção automática é experimental para pano verde/azul, círculos e mira clara. Skins, textura, bolas encostadas/ocultas, perspectiva e mudanças visuais podem exigir calibração e direção manuais. Os testes de modelo manual passaram, mas não automatizam todos os gestos do editor. O escore de qualidade é heurístico, não uma probabilidade calibrada.
 
