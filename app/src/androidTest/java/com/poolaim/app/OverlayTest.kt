@@ -51,11 +51,17 @@ class OverlayTest {
     }
     throw AssertionError("Janela do botão flutuante ausente")
    }
-   fun tapBubble() {
+   fun tapBubble(open: Boolean=true) {
+    // A native click may return before the prior menu action has removed its window.
+    // Wait for UI idle rather than inferring visibility from a shared analysis flag.
+    device.waitForIdle()
     val bounds=bubbleBounds()
-    val wasOpen=com.poolaim.vision.AnalysisFeed.controlsOpen
     assertTrue(device.click(bounds.centerX(),bounds.centerY()))
-    if(!wasOpen) device.wait(Until.findObject(By.text("Mais opções")),10000)?.click()
+    if(open) {
+     val more=device.wait(Until.findObject(By.text("Mais opções")),10000)
+     assertNotNull("Painel compacto ausente após tocar em PA",more)
+     more.click()
+    }
    }
    // Query the actual overlay root bounds: API 28 may flag a moved WindowManager root
    // as invisible in UiObject2 even while it is drawn. Every tap is verified by menu state.
@@ -73,11 +79,11 @@ class OverlayTest {
    device.swipe(original.centerX(),original.centerY(),device.displayWidth/8,device.displayHeight/8,20)
    assertTrue(eventually { store.read().x < .5f })
    assertTrue(OverlayController.running)
-   assertFalse(device.hasObject(By.text("Iniciar análise"))) // Drag must not become a click.
+   assertFalse(device.hasObject(By.text("Mais opções"))) // Drag must not become a click.
    tapBubble()
    assertNotNull(device.wait(Until.findObject(By.text("Ocultar linhas")),10000))
    // Opening a menu must not cover PA; a second tap closes it.
-   tapBubble()
+   tapBubble(open=false)
    assertTrue(device.wait(Until.gone(By.text("Ocultar linhas")),10000))
    tapBubble()
    device.wait(Until.findObject(By.text("Ocultar linhas")),10000).click()
