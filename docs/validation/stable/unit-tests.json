@@ -1,0 +1,58 @@
+{
+  "totals": {
+    "tests": 57,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "module": "physics",
+      "suite": "com.poolaim.physics.TrajectoryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "physics",
+      "suite": "com.poolaim.physics.GeometryEngineTest",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "vision-api",
+      "suite": "com.poolaim.vision.PipelineTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "vision-api",
+      "suite": "com.poolaim.vision.AnalysisPrivacyTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "recognition",
+      "suite": "com.poolaim.recognition.VisualDetectorTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "recognition",
+      "suite": "com.poolaim.recognition.TrainingFrameProbeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}

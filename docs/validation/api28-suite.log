@@ -1,0 +1,74 @@
+INSTRUMENTATION_STATUS: class=com.poolaim.app.CaptureTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=3
+INSTRUMENTATION_STATUS: stream=
+com.poolaim.app.CaptureTest:
+INSTRUMENTATION_STATUS: test=authorizedFramesRotateStopAndRequireFreshConsent
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.poolaim.app.CaptureTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=3
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=authorizedFramesRotateStopAndRequireFreshConsent
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.poolaim.app.LaunchTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=3
+INSTRUMENTATION_STATUS: stream=
+com.poolaim.app.LaunchTest:
+INSTRUMENTATION_STATUS: test=homeAndSimulatorOpen
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.poolaim.app.LaunchTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=3
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=homeAndSimulatorOpen
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=com.poolaim.app.OverlayTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=3
+INSTRUMENTATION_STATUS: stream=
+com.poolaim.app.OverlayTest:
+INSTRUMENTATION_STATUS: test=floatingControlsPassTouchesDragRotateAndStop
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=com.poolaim.app.OverlayTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=3
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Menu ausente após estabilizar a orientação
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertNotNull(Assert.java:713)
+	at com.poolaim.app.OverlayTest.floatingControlsPassTouchesDragRotateAndStop(OverlayTest.kt:106)
+
+INSTRUMENTATION_STATUS: stream=
+Error in floatingControlsPassTouchesDragRotateAndStop(com.poolaim.app.OverlayTest):
+java.lang.AssertionError: Menu ausente após estabilizar a orientação
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertNotNull(Assert.java:713)
+	at com.poolaim.app.OverlayTest.floatingControlsPassTouchesDragRotateAndStop(OverlayTest.kt:106)
+
+INSTRUMENTATION_STATUS: test=floatingControlsPassTouchesDragRotateAndStop
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_RESULT: stream=
+
+Time: 91.582
+There was 1 failure:
+1) floatingControlsPassTouchesDragRotateAndStop(com.poolaim.app.OverlayTest)
+java.lang.AssertionError: Menu ausente após estabilizar a orientação
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertNotNull(Assert.java:713)
+	at com.poolaim.app.OverlayTest.floatingControlsPassTouchesDragRotateAndStop(OverlayTest.kt:106)
+
+FAILURES!!!
+Tests run: 3,  Failures: 1
+
+
+INSTRUMENTATION_CODE: -1

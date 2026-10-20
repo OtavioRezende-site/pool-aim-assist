@@ -1,0 +1,8 @@
+package: com.poolaim.app
+uses-permission: name='android.permission.SYSTEM_ALERT_WINDOW'
+permission: com.poolaim.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission: name='com.poolaim.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
+uses-permission: name='android.permission.FOREGROUND_SERVICE'
+uses-permission: name='android.permission.FOREGROUND_SERVICE_SPECIAL_USE'
+uses-permission: name='android.permission.POST_NOTIFICATIONS'
+uses-permission: name='android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION'

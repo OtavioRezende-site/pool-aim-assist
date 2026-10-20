@@ -1,0 +1,28 @@
+{
+  "application": {
+    "allowBackup": "false",
+    "fullBackupContent": "false",
+    "dataExtractionRules": "@xml/data_extraction_rules",
+    "usesCleartextTraffic": "false"
+  },
+  "services": [
+    {
+      "name": "com.poolaim.overlay.OverlayService",
+      "exported": "false",
+      "foregroundServiceType": "specialUse"
+    },
+    {
+      "name": "com.poolaim.capture.CaptureService",
+      "exported": "false",
+      "foregroundServiceType": "mediaProjection"
+    }
+  ],
+  "permissions": [
+    "android.permission.SYSTEM_ALERT_WINDOW",
+    "com.poolaim.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+    "android.permission.FOREGROUND_SERVICE",
+    "android.permission.FOREGROUND_SERVICE_SPECIAL_USE",
+    "android.permission.POST_NOTIFICATIONS",
+    "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"
+  ]
+}

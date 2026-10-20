@@ -1,0 +1,5 @@
+physics: com.poolaim.physics.TrajectoryTest — testes=6, falhas=0, erros=0, ignorados=0
+physics: com.poolaim.physics.GeometryEngineTest — testes=24, falhas=0, erros=0, ignorados=0
+vision-api: com.poolaim.vision.PipelineTest — testes=11, falhas=0, erros=0, ignorados=0
+recognition: com.poolaim.recognition.VisualDetectorTest — testes=12, falhas=0, erros=0, ignorados=0
+recognition: com.poolaim.recognition.TrainingFrameProbeTest — testes=2, falhas=0, erros=0, ignorados=0
