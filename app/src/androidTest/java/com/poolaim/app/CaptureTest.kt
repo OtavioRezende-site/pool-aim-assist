@@ -30,12 +30,8 @@ class CaptureTest {
   ActivityScenario.launch<MainActivity>(Intent(context,MainActivity::class.java).putExtra(OverlayController.SCREEN,"CAPTURE")).use {
    try {
     device.wait(Until.findObject(By.text("Autorizar captura de tela")),15000).click()
-    // API 34+ may offer app-only or whole-display capture. Select whole display for rotation.
-    val selector=device.wait(Until.findObject(By.res("com.android.systemui","screen_share_mode_spinner")),2000)
-    if(selector!=null) {
-     selector.click()
-     device.wait(Until.findObject(By.textContains("Entire screen")),3000)?.click()
-    }
+    // The production intent already requests the full display through
+    // MediaProjectionConfig on API 34+. Do not manipulate its transient spinner.
     clickCaptureConsent(device)
     assertTrue("Frames autorizados não chegaram: ${CaptureMonitor.snapshot}",eventually(25000) {
      CaptureMonitor.snapshot.phase==CapturePhase.RUNNING && CaptureMonitor.snapshot.processedFrames>=3
