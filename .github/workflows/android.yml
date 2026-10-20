@@ -16,8 +16,21 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Instalar SDK
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Verificar SDK Android 35
+        run: |
+          sdk="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          if [ ! -f "$sdk/platforms/android-35/android.jar" ] || [ ! -x "$sdk/build-tools/35.0.0/aapt2" ]; then
+            manager="$sdk/cmdline-tools/latest/bin/sdkmanager"
+            if [ ! -x "$manager" ]; then
+              echo "::error::SDK Android sem sdkmanager em $manager"
+              exit 1
+            fi
+            "$manager" "platforms;android-35" "build-tools;35.0.0" || {
+              echo "::error::Não foi possível preparar o SDK Android 35 no runner"
+              exit 1
+            }
+          fi
       - name: Testes, APK debug e lint
         run: ./gradlew --no-daemon :physics:test :vision-api:test :recognition:test :app:assembleDebug :app:lintDebug
       - name: Preparar pacote instalável
