@@ -92,10 +92,11 @@ class OverlayTest {
    device.pressHome()
    assertFalse(bubbleBounds().isEmpty) // independent of Activity visibility
    tapBubble()
-   // Release the test's artificial orientation lock before returning to a screen
-   // that requests landscape. Android 15 honors this lock across Activity launches.
-   device.unfreezeRotation()
    device.wait(Until.findObject(By.text("Configurações")),10000).click()
+   // Release the test's artificial orientation lock once the menu has launched
+   // Settings, so rotation cannot dismiss the menu before the click is delivered.
+   // Android 15 honors this lock across Activity launches.
+   device.unfreezeRotation()
    assertNotNull(device.wait(Until.findObject(By.textStartsWith("Reflexões máximas por trajetória:")),10000))
    // Settings returns to landscape; wait for the real configuration transition before
    // opening a window, because onConfigurationChanged intentionally dismisses stale menus.
